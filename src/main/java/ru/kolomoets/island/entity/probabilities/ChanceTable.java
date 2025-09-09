@@ -76,5 +76,4 @@ public class ChanceTable {
     ) {
         predatorToPrey.put(predatorType, Map.copyOf(preyChanceRow));
     }
-
 }

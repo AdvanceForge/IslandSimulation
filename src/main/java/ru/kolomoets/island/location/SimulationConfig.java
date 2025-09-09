@@ -15,7 +15,7 @@ public class SimulationConfig {
     }
 
     public static SimulationConfig create() {
-        return new SimulationConfig(10, 20, 500, 10);
+        return new SimulationConfig(10, 20, 1000, 10);
     }
 
     public int getHeight() {

@@ -32,7 +32,7 @@ public class AnimalPopulationConfig {
                 Map.entry(Deer.class, area * ratioDeer),
                 Map.entry(Rabbit.class, area * ratioRabbit),
                 Map.entry(Mouse.class, area * ratioMouse),
-                Map.entry(Goat.class,area * ratioGoat),
+                Map.entry(Goat.class, area * ratioGoat),
                 Map.entry(Sheep.class, area * ratioSheep),
                 Map.entry(Boar.class, area * ratioBoar),
                 Map.entry(Buffalo.class, area * ratioBuffalo),

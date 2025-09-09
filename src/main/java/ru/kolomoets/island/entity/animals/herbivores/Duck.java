@@ -26,7 +26,7 @@ public class Duck extends AbstractAnimal {
         if (satiety < foodAmount * 0.9) return;
 
         ThreadLocalRandom rnd = ThreadLocalRandom.current();
-        if (rnd.nextDouble() > 0.26) return;
+        if (rnd.nextDouble() > 0.22) return;
 
         var sameSpecies = cell.getObjectsByType(this.getClass());
         if (sameSpecies.size() < 2) return;

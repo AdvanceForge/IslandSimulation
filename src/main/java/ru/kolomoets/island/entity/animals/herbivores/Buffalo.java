@@ -26,7 +26,7 @@ public class Buffalo extends AbstractAnimal {
         if (satiety < foodAmount * 0.7) return;
 
         ThreadLocalRandom rnd = ThreadLocalRandom.current();
-        if (rnd.nextDouble() > 0.07) return;
+        if (rnd.nextDouble() > 0.06) return;
 
         var sameSpecies = cell.getObjectsByType(this.getClass());
         if (sameSpecies.size() < 2) return;

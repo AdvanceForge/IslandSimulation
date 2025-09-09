@@ -25,7 +25,7 @@ public class Rabbit extends AbstractAnimal {
         if (satiety < foodAmount * 0.5) return;
 
         ThreadLocalRandom rnd = ThreadLocalRandom.current();
-        if (rnd.nextDouble() > 0.113) return;
+        if (rnd.nextDouble() > 0.14) return;
 
         var sameSpecies = cell.getObjectsByType(this.getClass());
         if (sameSpecies.size() < 2) return;

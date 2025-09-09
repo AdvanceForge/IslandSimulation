@@ -25,7 +25,7 @@ public class Mouse extends AbstractAnimal {
         if (satiety < foodAmount * 0.5) return;
 
         ThreadLocalRandom rnd = ThreadLocalRandom.current();
-        if (rnd.nextDouble() > 0.13) return;
+        if (rnd.nextDouble() > 0.15) return;
 
         var sameSpecies = cell.getObjectsByType(this.getClass());
         if (sameSpecies.size() < 2) return;

@@ -39,10 +39,9 @@ public class Island {
 
         fillRandomCellsWithGrassByChance();
         seedAllAnimals();
-        printMapCompact(0);
-        printAnimalStats(0);
 //        printInitialStats();
 //        printPlantStats(0);
+        printAnimalStats(0);
 
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
 
@@ -71,6 +70,33 @@ public class Island {
             for (int x = 0; x < width; x++) {
                 action.accept(x, y);
             }
+        }
+    }
+    private void phaseAnimalsLifeCycle() {
+        ExecutorService animalsPool = Executors.newFixedThreadPool(
+                Runtime.getRuntime().availableProcessors()
+        );
+
+        forEachCell((x, y) -> {
+            Cell cell = getCell(x, y);
+            animalsPool.submit(() -> {
+                ArrayList<IslandObjects> snapshot = new ArrayList<>(cell.getAllObjects());
+                for (IslandObjects obj : snapshot) {
+                    if (obj instanceof AbstractAnimal animal) {
+                        animal.lifeCycle();
+                        if (!animal.isAlive()) {
+                            cell.removeObject(animal);
+                        }
+                    }
+                }
+            });
+        });
+
+        animalsPool.shutdown();
+        try {
+            animalsPool.awaitTermination(1, TimeUnit.MINUTES);
+        } catch (InterruptedException e) {
+            Thread.currentThread().interrupt();
         }
     }
 
@@ -140,7 +166,6 @@ public class Island {
     }
 
     private void seedAllAnimals() {
-
         Map<Class<? extends AbstractAnimal>, Integer> initialPopulation =
                 AnimalPopulationConfig.createInitialPopulation(getWidth(), getHeight());
         for (var entry : initialPopulation.entrySet()) {
@@ -257,33 +282,6 @@ public class Island {
         }
     }
 
-    private void phaseAnimalsLifeCycle() {
-        ExecutorService animalsPool = Executors.newFixedThreadPool(
-                Runtime.getRuntime().availableProcessors()
-        );
-
-        forEachCell((x, y) -> {
-            Cell cell = getCell(x, y);
-            animalsPool.submit(() -> {
-                ArrayList<IslandObjects> snapshot = new ArrayList<>(cell.getAllObjects());
-                for (IslandObjects obj : snapshot) {
-                    if (obj instanceof AbstractAnimal animal) {
-                        animal.lifeCycle();
-                        if (!animal.isAlive()) {
-                            cell.removeObject(animal);
-                        }
-                    }
-                }
-            });
-        });
-
-        animalsPool.shutdown();
-        try {
-            animalsPool.awaitTermination(1, TimeUnit.MINUTES);
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
-        }
-    }
 
     public void printCellStats(int tick) {
         System.out.printf("=== Состояние клеток (tick %d) ===%n", tick);
@@ -387,19 +385,17 @@ public class Island {
 
         int cellWidth = 4;
 
-        for (int x = 0; x < width; x++) {
-            System.out.print("+");
-            for (int i = 0; i < cellWidth; i++) System.out.print("-");
+        for (int x = 0; x < width + 1; x++) {
+            System.out.print("—");
+            for (int i = 0; i < cellWidth; i++) System.out.print("—");
         }
-        System.out.println("+");
+        System.out.println("—");
 
         for (int y = 0; y < height; y++) {
             for (int x = 0; x < width; x++) {
                 Cell cell = getCell(x, y);
                 Collection<IslandObjects> objects = cell.getAllObjects();
-
                 String symbol = ".";
-
                 if (!objects.isEmpty()) {
                     List<AbstractAnimal> animals = new ArrayList<>();
                     for (IslandObjects obj : objects) {
@@ -439,12 +435,12 @@ public class Island {
             }
             System.out.println("|");
 
-            for (int x = 0; x < width; x++) {
-                System.out.print("+");
+            for (int x = 0; x < width + 1; x++) {
+                System.out.print("—");
                 for (int i = 0; i < cellWidth; i++)
-                    System.out.print("-");
+                    System.out.print("—");
             }
-            System.out.println("+");
+            System.out.println("—");
         }
     }
 
