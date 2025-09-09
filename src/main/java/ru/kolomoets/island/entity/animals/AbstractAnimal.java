@@ -70,10 +70,15 @@ public abstract class AbstractAnimal implements IslandObjects {
                     cell.removeObject(prey);
                     gainFood(prey.getWeight());
                     prey.setDead();
+//                    System.out.printf("%s съел %s%n",
+//                            this.getClass().getSimpleName(),
+//                            prey.getClass().getSimpleName());
                     break;
                 } else if (target instanceof Grass) {
                     gainFood(target.getWeight());
                     cell.removeObject(target);
+//                    System.out.printf("%s съел траву 🌿%n",
+//                            this.getClass().getSimpleName());
                     if (satiety >= foodAmount) break;
                 }
             }
